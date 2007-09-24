@@ -2,8 +2,8 @@
 
 %define name slmodem
 %define version 2.9.11
-%define snapshot 20060727
-%define mdkrelease 0.%{snapshot}.3
+%define snapshot 20070813
+%define mdkrelease 0.%{snapshot}.1
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
@@ -12,7 +12,7 @@ Summary:	slmodem utility.
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Source0:	%{name}-%{version}-%{snapshot}.tar.bz2
+Source0:	%{name}-%{version}-%{snapshot}.tar.gz
 Patch0:		%{name}-2.9.9-dkms.patch
 Patch1:		%{name}-2.9.10-mdkize.patch
 License:	SmartLink
@@ -36,7 +36,7 @@ Requires:	dkms, drakxtools >= 9.2-8mdk
 slmodem module Linux driver.
 
 %prep
-%setup
+%setup -n %{name}-%{version}-%{snapshot}
 %patch0 -p1 -b .dkms
 %patch1 -p1 -b .mdkize
 
@@ -45,7 +45,6 @@ slmodem module Linux driver.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd $RPM_BUILD_DIR/%{name}-%{version}
 
 # utils 
 mkdir -p $RPM_BUILD_ROOT/%{_sbindir}
@@ -121,7 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n dkms-%{name}
 %defattr(-,root,root)
-%doc %{_docdir}/%{name}-%{version}/*
+%doc %{_docdir}/%{name}/*
 %dir %{_usr}/src/%{name}-%{version}
 %{_usr}/src/%{name}-%{version}/*
 
