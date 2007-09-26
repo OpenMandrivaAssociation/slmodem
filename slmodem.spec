@@ -82,11 +82,6 @@ EOF
 
 %post
 %_post_service slmodemd
-for conf in /etc/modules /etc/modprobe.preload ; do
-	if [[ -f $conf ]];then
-		grep -q '^slamr$' $conf || echo slamr >> $conf
-	fi
-done
 # prevent slamr loading
 /sbin/modprobe slamr >/dev/null 2>&1 || :
 /sbin/modprobe slusb >/dev/null 2>&1 || :
@@ -94,16 +89,6 @@ echo "Relaunch drakconnect to configure your slmodem cards"
 
 %preun
 %_preun_service slmodemd
-if [[ $1 = "0" ]];then
-for conf in /etc/modules /etc/modprobe.preload ; do
-	if [[ -f $conf ]];then
-		if grep -q slamr $conf;then
-			grep -v '^slamr$' $conf > /tmp/modules.tmp.$$ && \
-			mv /tmp/modules.tmp.$$ $conf
-		fi
-	fi
-done
-fi
 
 %post -n dkms-%{name}
 set -x
