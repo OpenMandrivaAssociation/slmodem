@@ -7,6 +7,7 @@
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
+%define moduleversion %{version}-%{release}
 
 Summary:	slmodem utility.
 Name:		%{name}
@@ -60,12 +61,12 @@ mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.perms.d/
 install -m644 %{SOURCE2} $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.perms.d/
 
 # driver source
-mkdir -p $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{version}
-cp -r * $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{version}
-rm -rf $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{version}/{patches,scripts}
-cat > $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{version}/dkms.conf <<EOF
+mkdir -p $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{moduleversion}
+cp -r * $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{moduleversion}
+rm -rf $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{moduleversion}/{patches,scripts}
+cat > $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{moduleversion}/dkms.conf <<EOF
 PACKAGE_NAME=%{name}
-PACKAGE_VERSION=%{version}
+PACKAGE_VERSION=%{moduleversion}
 
 DEST_MODULE_LOCATION[0]=/kernel/drivers/char
 DEST_MODULE_LOCATION[1]=/kernel/drivers/char
@@ -106,9 +107,9 @@ fi
 
 %post -n dkms-%{name}
 set -x
-/usr/sbin/dkms --rpm_safe_upgrade add -m %name -v %version
-/usr/sbin/dkms --rpm_safe_upgrade build -m %name -v %version
-/usr/sbin/dkms --rpm_safe_upgrade install -m %name -v %version
+/usr/sbin/dkms --rpm_safe_upgrade add -m %name -v %moduleversion
+/usr/sbin/dkms --rpm_safe_upgrade build -m %name -v %moduleversion
+/usr/sbin/dkms --rpm_safe_upgrade install -m %name -v %moduleversion
 
 %preun -n dkms-%{name}
 set -x
@@ -129,7 +130,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n dkms-%{name}
 %defattr(-,root,root)
 %doc %{_docdir}/%{name}/*
-%dir %{_usr}/src/%{name}-%{version}
-%{_usr}/src/%{name}-%{version}/*
+%{_usr}/src/%{name}-%{moduleversion}
 
 
