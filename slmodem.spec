@@ -13,6 +13,8 @@ Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Source0:	%{name}-%{version}-%{snapshot}.tar.gz
+Source1:	slmodem.nodes
+Source2:	slmodem.perms
 Patch0:		%{name}-2.9.9-dkms.patch
 Patch1:		%{name}-2.9.10-mdkize.patch
 License:	SmartLink
@@ -52,6 +54,10 @@ install -m755 modem/slmodemd modem/modem_test $RPM_BUILD_ROOT/%{_sbindir}
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig $RPM_BUILD_ROOT/%{_sysconfdir}/rc.d/init.d
 install -m644 scripts/suse/slmodemd.conf $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/slmodemd
 install -m755 scripts/mandrake/slmodemd $RPM_BUILD_ROOT/%{_sysconfdir}/rc.d/init.d/
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/udev/devices.d/
+install -m644 %{SOURCE1} $RPM_BUILD_ROOT/%{_sysconfdir}/udev/devices.d/
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.perms.d/
+install -m644 %{SOURCE2} $RPM_BUILD_ROOT/%{_sysconfdir}/security/console.perms.d/
 
 # driver source
 mkdir -p $RPM_BUILD_ROOT/%{_usr}/src/%{name}-%{version}
@@ -117,6 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 %{_sysconfdir}/sysconfig/slmodemd
 %{_sysconfdir}/rc.d/init.d/slmodemd
+%{_sysconfdir}/udev/devices.d/slmodem.nodes
+%{_sysconfdir}/security/console.perms.d/slmodem.perms
 
 %files -n dkms-%{name}
 %defattr(-,root,root)
