@@ -18,6 +18,7 @@ Source1:	slmodem.nodes
 Source2:	slmodem.perms
 Patch0:		%{name}-2.9.9-dkms.patch
 Patch1:		%{name}-2.9.10-mdkize.patch
+Patch2:		slmodem-2.9.11-alsa-period-size.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -44,6 +45,7 @@ slmodem module Linux driver.
 %setup -q -n %{name}-%{version}-%{snapshot}
 %patch0 -p1 -b .dkms
 %patch1 -p1 -b .mdkize
+%patch2 -p1 -b .periodsize
 
 %build
 %make -C modem SUPPORT_ALSA=1
