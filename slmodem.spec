@@ -39,7 +39,7 @@ Requires:	dkms, drakxtools >= 9.2-8mdk
 slmodem module Linux driver.
 
 %prep
-%setup -n %{name}-%{version}-%{snapshot}
+%setup -q -n %{name}-%{version}-%{snapshot}
 %patch0 -p1 -b .dkms
 %patch1 -p1 -b .mdkize
 
