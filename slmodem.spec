@@ -33,7 +33,9 @@ slmodem driver utility.
 %package -n dkms-%{name}
 Summary:	slmodem module.
 Group:		System/Kernel and hardware
-Requires:	dkms, drakxtools >= 9.2-8mdk
+Requires:	drakxtools >= 9.2-8mdk
+Requires(post):	dkms
+Requires(preun):	dkms
 
 %description -n dkms-%{name}
 slmodem module Linux driver.
