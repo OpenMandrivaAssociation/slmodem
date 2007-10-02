@@ -82,9 +82,6 @@ EOF
 
 %post
 %_post_service slmodemd
-# prevent slamr loading
-/sbin/modprobe slamr >/dev/null 2>&1 || :
-/sbin/modprobe slusb >/dev/null 2>&1 || :
 echo "Relaunch drakconnect to configure your slmodem cards"
 
 %preun
