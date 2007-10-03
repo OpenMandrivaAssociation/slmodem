@@ -17,7 +17,7 @@ Source0:	%{name}-%{version}-%{snapshot}.tar.gz
 Source1:	slmodem.nodes
 Source2:	slmodem.perms
 Patch0:		%{name}-2.9.9-dkms.patch
-Patch1:		%{name}-2.9.10-mdkize.patch
+Patch1:		slmodem-2.9.11-20070813-mdkize.patch
 Patch2:		slmodem-2.9.11-alsa-period-size.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
