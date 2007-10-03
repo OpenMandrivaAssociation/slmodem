@@ -3,7 +3,7 @@
 %define name slmodem
 %define version 2.9.11
 %define snapshot 20070813
-%define mdkrelease 0.%{snapshot}.1
+%define mdkrelease 0.%{snapshot}.2
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
