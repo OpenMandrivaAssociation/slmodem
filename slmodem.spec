@@ -25,6 +25,7 @@ BuildRoot:	%{_tmppath}/%{name}-buildroot
 Url:		%{url}
 Prefix:		%{_prefix}
 Requires:	drakxtools >= 9.2-8mdk
+Requires(post):	udev >= 114-7mdv2008.0
 BuildRequires:	libalsa-devel
 ExclusiveArch:	%{ix86}
 
@@ -86,6 +87,7 @@ EOF
 
 %post
 %_post_service slmodemd
+/sbin/create_static_dev_nodes /dev %{_sysconfdir}/udev/devices.d/slmodem.nodes
 echo "Relaunch drakconnect to configure your slmodem cards"
 
 %preun
