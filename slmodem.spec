@@ -9,7 +9,7 @@
 #	    http://linmodems.technion.ac.il/packages/smartlink/
 %define moduleversion %{version}-%{release}
 
-Summary:	slmodem utility.
+Summary:	slmodem utility
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
@@ -33,7 +33,7 @@ ExclusiveArch:	%{ix86}
 slmodem driver utility.
 
 %package -n dkms-%{name}
-Summary:	slmodem module.
+Summary:	slmodem module
 Group:		System/Kernel and hardware
 Requires:	drakxtools >= 9.2-8mdk
 Requires(post):	dkms
