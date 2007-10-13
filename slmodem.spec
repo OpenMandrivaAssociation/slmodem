@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc COPYING Changes README
 %{_sbindir}/*
-%{_sysconfdir}/sysconfig/slmodemd
+%config(noreplace) %{_sysconfdir}/sysconfig/slmodemd
 %{_sysconfdir}/rc.d/init.d/slmodemd
 %{_sysconfdir}/udev/devices.d/slmodem.nodes
 %{_sysconfdir}/security/console.perms.d/slmodem.perms
