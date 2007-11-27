@@ -3,7 +3,7 @@
 %define name slmodem
 %define version 2.9.11
 %define snapshot 20070813
-%define mdkrelease 0.%{snapshot}.2
+%define mdkrelease 0.%{snapshot}.3
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
@@ -19,6 +19,7 @@ Source2:	slmodem.perms
 Patch0:		%{name}-2.9.9-dkms.patch
 Patch1:		slmodem-2.9.11-20070813-mdkize.patch
 Patch2:		slmodem-2.9.11-alsa-period-size.patch
+Patch3:		slmodem-2.9.11-SA_SHIRQ.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -47,6 +48,7 @@ slmodem module Linux driver.
 %patch0 -p1 -b .dkms
 %patch1 -p1 -b .mdkize
 %patch2 -p1 -b .periodsize
+%patch3 -p0 -b .SA_SHIRQ
 
 %build
 %make -C modem SUPPORT_ALSA=1
