@@ -22,6 +22,7 @@ Patch2:		slmodem-2.9.11-alsa-period-size.patch
 Patch3:		slmodem-2.9.11-SA_SHIRQ.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 Url:		%{url}
 Prefix:		%{_prefix}
 Requires:	drakxtools >= 9.2-8mdk
