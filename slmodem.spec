@@ -121,5 +121,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc %{_docdir}/%{name}/*
 %{_usr}/src/%{name}-%{moduleversion}
-
-
