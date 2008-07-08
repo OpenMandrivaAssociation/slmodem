@@ -3,7 +3,7 @@
 %define name slmodem
 %define version 2.9.11
 %define snapshot 20070813
-%define mdkrelease 0.%{snapshot}.3
+%define mdkrelease 0.%{snapshot}.4
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
@@ -25,7 +25,6 @@ Group:		System/Kernel and hardware
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 Url:		%{url}
 Prefix:		%{_prefix}
-Requires:	drakxtools >= 9.2-8mdk
 Requires(post):	udev >= 114-7mdv2008.0
 BuildRequires:	libalsa-devel
 ExclusiveArch:	%{ix86}
