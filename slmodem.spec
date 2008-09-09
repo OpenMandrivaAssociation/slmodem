@@ -2,8 +2,8 @@
 
 %define name slmodem
 %define version 2.9.11
-%define snapshot 20070813
-%define mdkrelease 0.%{snapshot}.4
+%define snapshot 20080817
+%define mdkrelease 0.%{snapshot}.1
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
@@ -18,8 +18,6 @@ Source1:	slmodem.nodes
 Source2:	slmodem.perms
 Patch0:		%{name}-2.9.9-dkms.patch
 Patch1:		slmodem-2.9.11-20070813-mdkize.patch
-Patch2:		slmodem-2.9.11-alsa-period-size.patch
-Patch3:		slmodem-2.9.11-SA_SHIRQ.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -46,8 +44,6 @@ slmodem module Linux driver.
 %setup -q -n %{name}-%{version}-%{snapshot}
 %patch0 -p1 -b .dkms
 %patch1 -p1 -b .mdkize
-%patch2 -p1 -b .periodsize
-%patch3 -p0 -b .SA_SHIRQ
 
 %build
 %make -C modem SUPPORT_ALSA=1
@@ -75,11 +71,15 @@ PACKAGE_NAME=%{name}
 PACKAGE_VERSION=%{moduleversion}
 
 DEST_MODULE_LOCATION[0]=/kernel/drivers/char
-DEST_MODULE_LOCATION[1]=/kernel/drivers/char
 BUILT_MODULE_NAME[0]=slamr
 BUILT_MODULE_LOCATION[0]=drivers
+if ! echo \${kernelver} | \\
+     egrep -q "^2\.6\.(2[7-9])|([3-9][0-9]+)|([1-9][0-9][0-9]+)"
+then
+DEST_MODULE_LOCATION[1]=/kernel/drivers/char
 BUILT_MODULE_NAME[1]=slusb
 BUILT_MODULE_LOCATION[1]=drivers
+fi
 MAKE[0]="make KERNEL_DIR=\${kernel_source_dir} drivers"
 CLEAN="make clean"
 
@@ -95,14 +95,14 @@ echo "Relaunch drakconnect to configure your slmodem cards"
 %_preun_service slmodemd
 
 %post -n dkms-%{name}
-set -x
 /usr/sbin/dkms --rpm_safe_upgrade add -m %name -v %moduleversion
 /usr/sbin/dkms --rpm_safe_upgrade build -m %name -v %moduleversion
 /usr/sbin/dkms --rpm_safe_upgrade install -m %name -v %moduleversion
+exit 0
 
 %preun -n dkms-%{name}
-set -x
 /usr/sbin/dkms --rpm_safe_upgrade remove -m %name -v %version --all
+exit 0
 
 %clean
 rm -rf $RPM_BUILD_ROOT
