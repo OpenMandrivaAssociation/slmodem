@@ -3,7 +3,7 @@
 %define name slmodem
 %define version 2.9.11
 %define snapshot 20080817
-%define mdkrelease 0.%{snapshot}.4
+%define mdkrelease 0.%{snapshot}.5
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
@@ -18,6 +18,9 @@ Source1:	slmodem.nodes
 Source2:	slmodem.perms
 Patch0:		%{name}-2.9.9-dkms.patch
 Patch1:		slmodem-2.9.11-20070813-mdkize.patch
+Patch2:		slmodem-Makefile-2.4.patch
+Patch3:		slmodem-motorola-id.patch
+Patch4:		slmodem-2.9.11-20080817-ioctl_hookstate.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -44,6 +47,9 @@ slmodem module Linux driver.
 %setup -q -n %{name}-%{version}-%{snapshot}
 %patch0 -p1 -b .dkms
 %patch1 -p1 -b .mdkize
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 %make -C modem SUPPORT_ALSA=1
@@ -101,7 +107,7 @@ echo "Relaunch drakconnect to configure your slmodem cards"
 exit 0
 
 %preun -n dkms-%{name}
-/usr/sbin/dkms --rpm_safe_upgrade remove -m %name -v %version --all
+/usr/sbin/dkms --rpm_safe_upgrade remove -m %name -v %moduleversion --all
 exit 0
 
 %clean
