@@ -3,7 +3,7 @@
 %define name slmodem
 %define version 2.9.11
 %define snapshot 20080817
-%define mdkrelease 0.%{snapshot}.6
+%define mdkrelease 0.%{snapshot}.7
 %define release %mkrel %{mdkrelease}
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
@@ -21,6 +21,7 @@ Patch1:		slmodem-2.9.11-20070813-mdkize.patch
 Patch2:		slmodem-Makefile-2.4.patch
 Patch3:		slmodem-motorola-id.patch
 Patch4:		slmodem-2.9.11-20080817-ioctl_hookstate.patch
+Patch5:		slmodem-2.9.11-20080817-kernel-2.6.33.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -50,6 +51,7 @@ slmodem module Linux driver.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %make -C modem SUPPORT_ALSA=1
