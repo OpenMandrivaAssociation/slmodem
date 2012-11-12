@@ -1,0 +1,11 @@
+--- slmodem-2.9.9/drivers/Makefile~	2003-12-21 22:15:54.000000000 +0100
++++ slmodem-2.9.9/drivers/Makefile	2004-09-13 19:11:53.703471559 +0200
+@@ -25,7 +25,7 @@ obj-m := slamr.o slusb.o
+ slamr-objs:= amrmo_init.o sysdep_amr.o amrlibs.o
+ slusb-objs:= st7554.o
+ 
+-ifndef KERNELRELEASE
++ifndef EXTRAVERSION
+ ifndef KERNEL_VER
+ 
+ all install uninstall: kernel-ver

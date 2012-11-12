@@ -1,0 +1,12 @@
+diff -p -up slmodem-2.9.11-0.20080817.4mdv2009.1/drivers/Makefile.orig slmodem-2.9.11-0.20080817.4mdv2009.1/drivers/Makefile
+--- slmodem-2.9.11-0.20080817.4mdv2009.1/drivers/Makefile.orig	2009-10-16 20:22:30.000000000 -0300
++++ slmodem-2.9.11-0.20080817.4mdv2009.1/drivers/Makefile	2009-10-16 20:23:54.000000000 -0300
+@@ -70,7 +70,7 @@ remove-devices:
+ 	    $(RM) ${DESTDIR}/dev/slusb$(minor) ; ) echo -n
+ 
+ else
+-ifeq ($(findstring 2.4,$(KERNEL_VER)),2.4)
++ifeq ($(findstring 2.4.,$(KERNEL_VER)),2.4.)
+ 
+ slusb-objs:= old_st7554.o
+ obj:=.

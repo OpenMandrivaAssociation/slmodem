@@ -1,0 +1,116 @@
+--- slmodem-2.9.11-20080817/scripts/mandrake/slmodemd.mdkize	2008-03-29 15:04:16.000000000 +0300
++++ slmodem-2.9.11-20080817/scripts/mandrake/slmodemd	2009-02-08 16:49:24.000000000 +0300
+@@ -1,11 +1,12 @@
+ #!/bin/sh
+ #
+-# slmodemd:    Starts the SmartLink Modem Daemon
+-#
+-# chkconfig: 345 90 10
+-# description: SmartLink Modem : Autoload slarm + slmodem
+-# processname: slmodemd
+-# config: /etc/sysconfig/slmodem
++### BEGIN INIT INFO
++# Provides: slmodemd
++# Should-Start: alsa
++# Default-Start: 3 4 5
++# Short-Description: SmartLink Modem Daemon
++# Description: SmartLink Modem : Autoload modem modules + slmodem daemon
++### END INIT INFO
+ 
+ # Source function library.
+ . /etc/init.d/functions
+@@ -15,7 +16,8 @@ RETVAL=0
+ 
+ # Default configuration
+ SLMODEMD_DEVICE=slamr0
+-SLMODEMD_COUNTRY=ITALY
++SLMODEMD_COUNTRY=USA
++SLMODEMD_CARD_NUMBER=1
+ 
+ # Source configuration
+ CONFIG=/etc/sysconfig/$prog
+@@ -23,24 +25,44 @@ if [ -f $CONFIG ]; then
+         . $CONFIG
+ fi
+ 
++[ -z "$SLMODEMD_MODULE" ] && SLMODEMD_MODULE=slamr
++SLMODEMD_MODULE=${SLMODEMD_MODULE//-/_}
++
++case "$SLMODEMD_MODULE" in
++	snd_* ) 
++	    SLMODEMD_DEVICE=snd/controlC${SLMODEMD_CARD_NUMBER}
++	    SLMODEMD_OPTIONS="$SLMODEMD_OPTIONS --alsa"
++	    SLMODEMD_FULLDEVICE=hw:${SLMODEMD_CARD_NUMBER}
++	;;
++	* )
++	    SLMODEMD_FULLDEVICE=/dev/$SLMODEMD_DEVICE
++	;;
++esac
++
+ # uncomment this if you want this feature (if necessary edit module pattern):
+ # do not try to start on a kernel which does not support it
+ # grep -q 'slamr\.o' /lib/modules/`uname -r`/modules.dep || exit 0
+ 
+ start() {
+-	cat /proc/modules | grep 'slamr' >/dev/null || {
+-	  echo -n "Loading SmartLink Modem driver into kernel ... "
+-	  modprobe slamr && echo "done." || { 
+-	    echo "failed."
++	[ -d /sys/module/${SLMODEMD_MODULE} ] || {
++	  gprintf "Loading SmartLink Modem driver into kernel ... "
++	  modprobe $SLMODEMD_MODULE && echo_success || { 
++	    echo_failure
++	    echo
+ 	    exit -1
+ 	  }
++	  echo
+ 	}
++	try=3
++	while [ $try -gt 0 -a ! -c /dev/$SLMODEMD_DEVICE ]; do
++	    sleep 1
++	    try=$(($try - 1))
++	done
+ 	echo -n "Starting SmartLink Modem driver for $SLMODEMD_DEVICE: "
+-	# if you want ALSA comment next line and uncomment last
+-	$prog </dev/null >/dev/null 2>/dev/null --country=$SLMODEMD_COUNTRY /dev/$SLMODEMD_DEVICE &
+-	# $prog </dev/null >/dev/null 2>/dev/null --country=$SLMODEMD_COUNTRY --alsa /dev/$SLMODEMD_DEVICE &
++	# if you want ALSA set SLMODEMD_MODULE=<your-alsa-driver>
++	$prog --country=$SLMODEMD_COUNTRY $SLMODEMD_OPTIONS $SLMODEMD_FULLDEVICE >/dev/null 2>&1 &
+ 	RETVAL=$?
+-	[ $RETVAL -eq 0 ] && success $"$prog startup" || failure $"$prog startup"
++	[ $RETVAL -eq 0 ] && success "%s startup" "$prog" || failure "%s startup" "$prog"
+ 	echo
+ 	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$prog
+ 	return $RETVAL
+@@ -50,7 +72,6 @@ stop() {
+ 	echo -n "Shutting down SmartLink Modem driver: "
+ 	killproc $prog
+ 	RETVAL=$?
+-	modprobe -r slamr slusb
+ 	echo
+ 	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$prog
+ 	return $RETVAL
+--- slmodem-2.9.11-20080817/scripts/suse/slmodemd.conf.mdkize	2008-03-29 15:04:16.000000000 +0300
++++ slmodem-2.9.11-20080817/scripts/suse/slmodemd.conf	2009-02-08 16:48:37.000000000 +0300
+@@ -1,9 +1,17 @@
+ #/etc/sysconfig/slmodemd
+-#modem device, default /dev/slamr0,
+-#for USB take /dev/slusb0 for example 
+-SLMODEMD_DEVICE=/dev/slamr0
++#modem device, default slamr0,
++#for USB take slusb0 for example 
++# if you use ALSA, this will be overriden by the initscript
++SLMODEMD_DEVICE=slamr0
+ 
+ #Your country, try "slmodemd --countrylist"
+-SLMODEMD_COUNTRY=GERMANY
++SLMODEMD_COUNTRY=USA
+ 
++# Initscript will add "--alsa" if required
++SLMODEMD_OPTIONS=
+ 
++# if you want ALSA, use driver for you card, e.g. snd-intel8x0m
++SLMODEMD_MODULE=
++
++# If you want ALSA, set it to card number of your modem device
++SLMODEMD_CARD_NUMBER=1
