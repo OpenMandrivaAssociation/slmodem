@@ -24,7 +24,6 @@ Patch4:		slmodem-2.9.11-20080817-ioctl_hookstate.patch
 Patch5:		slmodem-2.9.11-20080817-kernel-2.6.33.patch
 License:	SmartLink
 Group:		System/Kernel and hardware
-BuildRoot:	%{_tmppath}/%{name}-buildroot
 Url:		%{url}
 Prefix:		%{_prefix}
 Requires(post):	udev >= 114-7mdv2008.0
@@ -112,11 +111,7 @@ exit 0
 /usr/sbin/dkms --rpm_safe_upgrade remove -m %name -v %moduleversion --all
 exit 0
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-,root,root)
 %doc COPYING Changes README
 %{_sbindir}/*
 %config(noreplace) %{_sysconfdir}/sysconfig/slmodemd
@@ -125,6 +120,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/security/console.perms.d/slmodem.perms
 
 %files -n dkms-%{name}
-%defattr(-,root,root)
-%doc %{_docdir}/%{name}/*
 %{_usr}/src/%{name}-%{moduleversion}
