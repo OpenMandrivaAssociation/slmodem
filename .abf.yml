@@ -1,4 +1,2 @@
 sources:
-  "slmodem-2.9.11-20080817.tar.gz:"	7838f19a32077ed5e0ecbfe06232a3840888c5eb
-  "slmodem.nodes:"	0a2927f783149c6c55c9921e8b5340162d5d34bd
-  "slmodem.perms:"	ee14c33d1c8435f35412a8eebd3491d1031dc91f
+  slmodem-2.9.11-20080817.tar.gz: 7838f19a32077ed5e0ecbfe06232a3840888c5eb
