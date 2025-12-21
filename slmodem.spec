@@ -27,6 +27,7 @@ Group:		System/Kernel and hardware
 Url:		%{url}
 Prefix:		%{_prefix}
 Requires(post):	udev >= 114-7mdv2008.0
+BuildRequires:	make
 BuildRequires:	libalsa-devel
 ExclusiveArch:	%{ix86}
 
