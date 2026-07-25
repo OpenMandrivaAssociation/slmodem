@@ -4,7 +4,7 @@
 %define version 2.9.11
 %define snapshot 20080817
 %define mdkrelease 0.%{snapshot}.7
-%define release %mkrel %{mdkrelease}
+%define release %{mdkrelease}.1
 %define url http://www.smlink.com/main/down
 #	    http://linmodems.technion.ac.il/packages/smartlink/
 %define moduleversion %{version}-%{release}
